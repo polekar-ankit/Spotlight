@@ -32,6 +32,7 @@ public class SpotlightConfig {
     private int lineAndArcColor;
     private boolean showTargetArc;
     private Typeface typeface;
+    private boolean showSkipButton;
 
     public int getSkipButtonTextSize() {
         return skipButtonTextSize;
@@ -42,6 +43,14 @@ public class SpotlightConfig {
     }
 
     private int skipButtonTextSize;
+
+    public boolean isShowSkipButton() {
+        return showSkipButton;
+    }
+
+    public void setShowSkipButton(boolean showSkipButton) {
+        this.showSkipButton = showSkipButton;
+    }
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -65,6 +74,7 @@ public class SpotlightConfig {
         this.lineAndArcColor = Color.parseColor("#eb273f");
         this.showTargetArc = true;
         this.skipButtonTextSize = 24;
+        this.showSkipButton = true;
     }
 
     public int getMaskColor() {

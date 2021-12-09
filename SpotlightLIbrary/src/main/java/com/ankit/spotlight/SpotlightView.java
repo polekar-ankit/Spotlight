@@ -128,6 +128,12 @@ public class SpotlightView extends FrameLayout {
     private boolean dismissOnBackPress;
     private boolean enableDismissAfterShown;
 
+    public void setShowSkipButton(boolean showSkipButton) {
+        this.showSkipButton = showSkipButton;
+    }
+
+    private boolean showSkipButton;
+
     private PreferencesManager preferencesManager;
     private String usageId;
 
@@ -330,25 +336,22 @@ public class SpotlightView extends FrameLayout {
 
         setReady(true);
 
-        handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        handler.postDelayed(() -> {
+                    try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                                            if (isRevealAnimationEnabled)
-                                                startRevealAnimation(activity);
-                                            else {
-                                                startFadinAnimation(activity);
-                                            }
-                                        } else {
-                                            startFadinAnimation(activity);
-                                        }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
+                            if (isRevealAnimationEnabled)
+                                startRevealAnimation(activity);
+                            else {
+                                startFadinAnimation(activity);
                             }
+                        } else {
+                            startFadinAnimation(activity);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 , 100);
 
     }
@@ -363,14 +366,10 @@ public class SpotlightView extends FrameLayout {
         dismissCalled = true;
 
         preferencesManager.setDisplayed(usageId);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (isRevealAnimationEnabled)
-                exitRevealAnimation();
-            else
-                startFadeout();
-        } else {
+        if (isRevealAnimationEnabled)
+            exitRevealAnimation();
+        else
             startFadeout();
-        }
 
     }
 
@@ -620,7 +619,6 @@ public class SpotlightView extends FrameLayout {
         subHeadingTv.setText(subHeadingTvText);
 
         skipButton = new Button(activity);
-
         if (mTypeface != null)
             skipButton.setTypeface(mTypeface);
         skipButton.setTextSize(skipButtonTextSize);
@@ -628,6 +626,7 @@ public class SpotlightView extends FrameLayout {
         skipButton.setTextColor(subHeadingTvColor);
         skipButton.setText(skipButtonText);
         skipButton.setOnClickListener(view -> {
+            dismiss();
             if (skipButtonListener != null) {
                 skipButtonListener.onSkip();
             }
@@ -886,7 +885,8 @@ public class SpotlightView extends FrameLayout {
 
         addView(headingTv, headingParams);
         addView(subHeadingTv, subHeadingParams);
-        addView(skipButton, skipButtonParams);
+        if (showSkipButton)
+            addView(skipButton, skipButtonParams);
 
         return animPoints;
     }
@@ -1079,6 +1079,7 @@ public class SpotlightView extends FrameLayout {
             this.lineStroke = configuration.getLineStroke();
             this.lineAndArcColor = configuration.getLineAndArcColor();
             this.skipButtonTextSize = configuration.getSkipButtonTextSize();
+            this.showSkipButton =  configuration.isShowSkipButton();
         }
     }
 
@@ -1133,6 +1134,11 @@ public class SpotlightView extends FrameLayout {
 
         public Builder dismissOnBackPress(boolean dismissOnBackPress) {
             spotlightView.setDismissOnBackPress(dismissOnBackPress);
+            return this;
+        }
+
+        public Builder showSkipButton(boolean showSkipButton){
+            spotlightView.showSkipButton = showSkipButton;
             return this;
         }
 
