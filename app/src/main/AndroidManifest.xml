@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ankit.spotlight">
+    package="com.ankit.spotlight_demo">
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
