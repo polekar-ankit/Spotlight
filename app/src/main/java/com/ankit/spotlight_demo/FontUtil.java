@@ -1,4 +1,4 @@
-package com.ankit.spotlight;
+package com.ankit.spotlight_demo;
 
 import android.content.Context;
 import android.graphics.Typeface;

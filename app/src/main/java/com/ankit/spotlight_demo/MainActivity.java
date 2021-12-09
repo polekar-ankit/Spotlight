@@ -1,4 +1,4 @@
-package com.ankit.spotlight;
+package com.ankit.spotlight_demo;
 
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Looper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.ankit.spotlight.R;
+import com.ankit.spotlight.SpotlightView;
 import com.ankit.spotlight.prefs.PreferencesManager;
 import com.ankit.spotlight.utils.SpotlightSequence;
 import com.ankit.spotlight.utils.Utils;
