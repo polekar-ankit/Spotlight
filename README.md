@@ -1,5 +1,5 @@
 # Spotlight
-Spotlight is an Android library used to onboard users by showcasing specific features in the app.
+Spotlight is an Android library used to onboard users by showcasing specific features in the app.this library build from https://github.com/29jitender/Spotlight library but make some update to support for latest version of android.
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 <img src="https://img.shields.io/badge/license-Apache 2.0-green.svg?style=flat">
@@ -112,6 +112,12 @@ Dismiss spotlight on touch outside
 
 ### enableDismissAfterShown(boolean)
 Dismiss spotlight on touch outside after spotlight is completely visible
+
+###showSkipButton(boolean)
+hide and display skip button
+
+###setSkipButtonTextSize(int)
+set text size of skip button
 
 # Configuration Method
 ```java
