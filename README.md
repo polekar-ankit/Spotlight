@@ -22,6 +22,8 @@ new SpotlightView.Builder(this)
         .subHeadingTvSize(16)
         .subHeadingTvText("Like the picture?\nLet others know.")
         .maskColor(Color.parseColor("#dc000000"))
+        .showSkipButton(true)
+        .setSkipButtonTextSize(12)
         .target(view)
         .lineAnimDuration(400)
         .lineAndArcColor(Color.parseColor("#eb273f"))
@@ -113,10 +115,10 @@ Dismiss spotlight on touch outside
 ### enableDismissAfterShown(boolean)
 Dismiss spotlight on touch outside after spotlight is completely visible
 
-###showSkipButton(boolean)
+### showSkipButton(boolean)
 hide and display skip button
 
-###setSkipButtonTextSize(int)
+### setSkipButtonTextSize(int)
 set text size of skip button
 
 # Configuration Method
