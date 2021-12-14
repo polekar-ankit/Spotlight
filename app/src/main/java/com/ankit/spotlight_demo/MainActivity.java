@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .target(view)
                 .lineAnimDuration(400)
                 .setSkipButtonGravity(Gravity.TOP|Gravity.END)
-                .setSkipButtonTopMargine(50)
+                .setSkipButtonTopMargin(50)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)

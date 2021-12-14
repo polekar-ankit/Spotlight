@@ -37,6 +37,8 @@ public class SpotlightConfig {
     private int skipButtonBottomMargin = 0;
     private int skipButtonTextSize;
     private int skipButtonGravity = -1;
+    private int skipButtonEndMargin = 0;
+    private int skipButtonStartMargin = 0;
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -64,6 +66,24 @@ public class SpotlightConfig {
         this.skipButtonGravity = -1;
         this.skipButtonTopMargin = 0;
         this.skipButtonBottomMargin = 0;
+        this.skipButtonStartMargin=0;
+        this.skipButtonEndMargin = 0;
+    }
+
+    public int getSkipButtonEndMargin() {
+        return skipButtonEndMargin;
+    }
+
+    public void setSkipButtonEndMargin(int skipButtonEndMargin) {
+        this.skipButtonEndMargin = skipButtonEndMargin;
+    }
+
+    public int getSkipButtonStartMargin() {
+        return skipButtonStartMargin;
+    }
+
+    public void setSkipButtonStartMargin(int skipButtonStartMargin) {
+        this.skipButtonStartMargin = skipButtonStartMargin;
     }
 
     public int getSkipButtonGravity() {
