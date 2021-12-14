@@ -33,24 +33,9 @@ public class SpotlightConfig {
     private boolean showTargetArc;
     private Typeface typeface;
     private boolean showSkipButton;
-
-    public int getSkipButtonTextSize() {
-        return skipButtonTextSize;
-    }
-
-    public void setSkipButtonTextSize(int skipButtonTextSize) {
-        this.skipButtonTextSize = skipButtonTextSize;
-    }
-
+    private int skipButtonTopMargin = 50;
+    private int skipButtonBottomMargin = 50;
     private int skipButtonTextSize;
-
-    public boolean isShowSkipButton() {
-        return showSkipButton;
-    }
-
-    public void setShowSkipButton(boolean showSkipButton) {
-        this.showSkipButton = showSkipButton;
-    }
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -75,6 +60,38 @@ public class SpotlightConfig {
         this.showTargetArc = true;
         this.skipButtonTextSize = 24;
         this.showSkipButton = true;
+    }
+
+    public int getSkipButtonTopMargin() {
+        return skipButtonTopMargin;
+    }
+
+    public void setSkipButtonTopMargin(int skipButtonTopMargin) {
+        this.skipButtonTopMargin = skipButtonTopMargin;
+    }
+
+    public int getSkipButtonBottomMargin() {
+        return skipButtonBottomMargin;
+    }
+
+    public void setSkipButtonBottomMargin(int skipButtonBottomMargin) {
+        this.skipButtonBottomMargin = skipButtonBottomMargin;
+    }
+
+    public int getSkipButtonTextSize() {
+        return skipButtonTextSize;
+    }
+
+    public void setSkipButtonTextSize(int skipButtonTextSize) {
+        this.skipButtonTextSize = skipButtonTextSize;
+    }
+
+    public boolean isShowSkipButton() {
+        return showSkipButton;
+    }
+
+    public void setShowSkipButton(boolean showSkipButton) {
+        this.showSkipButton = showSkipButton;
     }
 
     public int getMaskColor() {

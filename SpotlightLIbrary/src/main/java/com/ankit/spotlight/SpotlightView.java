@@ -127,48 +127,35 @@ public class SpotlightView extends FrameLayout {
     private boolean dismissOnTouch;
     private boolean dismissOnBackPress;
     private boolean enableDismissAfterShown;
-
-    public void setShowSkipButton(boolean showSkipButton) {
-        this.showSkipButton = showSkipButton;
-    }
-
     private boolean showSkipButton;
-
     private PreferencesManager preferencesManager;
     private String usageId;
-
     /**
      * Listener for spotLight when user clicks on the view
      */
     private SpotlightListener listener;
     private SkipButtonListener skipButtonListener;
-
     /**
      * Perform click when user clicks on the targetView
      */
     private boolean isPerformClick;
-
     /**
      * Margin from left, right, top and bottom till the line will stop
      */
     private int gutter = Utils.dpToPx(36);
-
     /**
      * Views Heading and sub-heading for spotlight
      */
     private TextView subHeadingTv, headingTv;
     private Button skipButton;
-
     /**
      * Whether to show the arc at the end of the line that points to the target.
      */
     private boolean showTargetArc = true;
-
     /**
      * Extra padding around the arc
      */
     private int extraPaddingForArc = 24;
-
     /**
      * Defaults for heading TextView
      */
@@ -176,17 +163,17 @@ public class SpotlightView extends FrameLayout {
     private int headingTvSizeDimenUnit = -1;
     private int headingTvColor = Color.parseColor("#eb273f");
     private CharSequence headingTvText = "Hello";
-
     /**
      * Defaults for sub-heading TextView
      */
     private int subHeadingTvSize = 24;
     private int skipButtonTextSize = 24;
     private int subHeadingTvSizeDimenUnit = -1;
+    private int skipButtonTopMargin = 0;
+    private int skipButtonBottomMargin = 0;
     private int subHeadingTvColor = Color.parseColor("#ffffff");
     private CharSequence subHeadingTvText = "Hello";
     private CharSequence skipButtonText = "Skip";
-
     /**
      * Values for line animation
      */
@@ -194,12 +181,8 @@ public class SpotlightView extends FrameLayout {
     private int lineStroke;
     private PathEffect lineEffect;
     private int lineAndArcColor = Color.parseColor("#eb273f");
-
-
     private Typeface mTypeface = null;
-
     private int softwareBtnHeight;
-
     private boolean dismissCalled = false;
 
 
@@ -218,10 +201,56 @@ public class SpotlightView extends FrameLayout {
         init(context);
     }
 
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SpotlightView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
+    }
+
+    private static int getSoftButtonsBarHeight(Activity activity) {
+        try {
+            // getRealMetrics is only available with API 17 and +
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                DisplayMetrics metrics = new DisplayMetrics();
+                activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+                if (metrics.heightPixels > metrics.widthPixels) {
+                    //Portrait
+                    int usableHeight = metrics.heightPixels;
+                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+                    int realHeight = metrics.heightPixels;
+                    if (realHeight > usableHeight)
+                        return realHeight - usableHeight;
+                    else
+                        return 0;
+                } else {
+                    //Landscape
+                    int usableHeight = metrics.widthPixels;
+                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+                    int realHeight = metrics.widthPixels;
+                    if (realHeight > usableHeight)
+                        return realHeight - usableHeight;
+                    else
+                        return 0;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void setShowSkipButton(boolean showSkipButton) {
+        this.showSkipButton = showSkipButton;
+    }
+
+    public void setSkipButtonTopMargin(int skipButtonTopMargin) {
+        this.skipButtonTopMargin = skipButtonTopMargin;
+    }
+
+    public void setSkipButtonBottomMargin(int skipButtonBottomMargin) {
+        this.skipButtonBottomMargin = skipButtonBottomMargin;
     }
 
     private void init(Context context) {
@@ -274,7 +303,6 @@ public class SpotlightView extends FrameLayout {
         }
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float xT = event.getX();
@@ -318,7 +346,6 @@ public class SpotlightView extends FrameLayout {
 
         return super.onTouchEvent(event);
     }
-
 
     /**
      * Show the view based on the configuration
@@ -372,7 +399,6 @@ public class SpotlightView extends FrameLayout {
             startFadeout();
 
     }
-
 
     /**
      * Revel animation from target center to screen width and height
@@ -758,7 +784,8 @@ public class SpotlightView extends FrameLayout {
 
                 skipButtonParams.rightMargin = headingParams.rightMargin;
                 skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin;
+                skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                skipButtonParams.bottomMargin = skipButtonBottomMargin;
                 skipButtonParams.gravity = Gravity.TOP | Gravity.RIGHT;
 
 
@@ -795,7 +822,8 @@ public class SpotlightView extends FrameLayout {
 
                 skipButtonParams.rightMargin = headingParams.rightMargin;
                 skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin;
+                skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                skipButtonParams.bottomMargin = skipButtonBottomMargin;
                 skipButtonParams.gravity = Gravity.TOP | Gravity.LEFT;
 
 
@@ -835,7 +863,8 @@ public class SpotlightView extends FrameLayout {
 
                 skipButtonParams.rightMargin = headingParams.rightMargin;
                 skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin;
+                skipButtonParams.topMargin = extramargin+skipButtonTopMargin;
+                skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
                 skipButtonParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
 
                 subHeadingParams.leftMargin = gutter;
@@ -868,7 +897,8 @@ public class SpotlightView extends FrameLayout {
 
                 skipButtonParams.rightMargin = headingParams.rightMargin;
                 skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin;
+                skipButtonParams.topMargin = extramargin+skipButtonTopMargin;
+                skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
                 skipButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
                 headingTv.setGravity(Gravity.LEFT);
 
@@ -977,7 +1007,6 @@ public class SpotlightView extends FrameLayout {
         this.introAnimationDuration = introAnimationDuration;
     }
 
-
     public void setRevealAnimationEnabled(boolean revealAnimationEnabled) {
         isRevealAnimationEnabled = revealAnimationEnabled;
     }
@@ -1079,7 +1108,77 @@ public class SpotlightView extends FrameLayout {
             this.lineStroke = configuration.getLineStroke();
             this.lineAndArcColor = configuration.getLineAndArcColor();
             this.skipButtonTextSize = configuration.getSkipButtonTextSize();
-            this.showSkipButton =  configuration.isShowSkipButton();
+            this.showSkipButton = configuration.isShowSkipButton();
+            this.skipButtonTopMargin = configuration.getSkipButtonTopMargin();
+            this.skipButtonBottomMargin = configuration.getSkipButtonBottomMargin();
+        }
+    }
+
+    private void setSKipButtonTextSize(int skipButtonTextSize) {
+        this.skipButtonTextSize = skipButtonTextSize;
+    }
+
+    private void setSkipListener(SkipButtonListener skipButtonListener) {
+        this.skipButtonListener = skipButtonListener;
+    }
+
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (dismissOnBackPress && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                dismiss();
+            }
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    public void logger(String s) {
+        Log.d("Spotlight", s);
+    }
+
+    private int getViewHeight() {
+        if (getWidth() > getHeight()) {
+            //Landscape
+            return getHeight();
+        } else {
+            //Portrait
+            return (getHeight() - softwareBtnHeight);
+        }
+    }
+
+    private int getViewWidth() {
+        if (getWidth() > getHeight()) {
+            //Landscape
+            return (getWidth() - softwareBtnHeight);
+        } else {
+            //Portrait
+            return getWidth();
+        }
+    }
+
+    /**
+     * This will remove all usage ids from preferences.
+     */
+    public void resetAllUsageIds() {
+        try {
+            preferencesManager.resetAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * This will remove given usage id from preferences.
+     *
+     * @param id Spotlight usage id to be removed
+     */
+    public void resetUsageId(String id) {
+        try {
+            preferencesManager.reset(id);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -1137,7 +1236,7 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
-        public Builder showSkipButton(boolean showSkipButton){
+        public Builder showSkipButton(boolean showSkipButton) {
             spotlightView.showSkipButton = showSkipButton;
             return this;
         }
@@ -1159,6 +1258,16 @@ public class SpotlightView extends FrameLayout {
 
         public Builder setSkipListener(SkipButtonListener skipButtonListener) {
             spotlightView.setSkipListener(skipButtonListener);
+            return this;
+        }
+
+        public Builder setSkipButtonTopMargine(int topMargine) {
+            spotlightView.setSkipButtonTopMargin(topMargine);
+            return this;
+        }
+
+        public Builder setSkipButtonBottomMargine(int bottomMargine) {
+            spotlightView.setSkipButtonBottomMargin(bottomMargine);
             return this;
         }
 
@@ -1272,106 +1381,5 @@ public class SpotlightView extends FrameLayout {
             return spotlightView;
         }
 
-    }
-
-    private void setSKipButtonTextSize(int skipButtonTextSize) {
-        this.skipButtonTextSize = skipButtonTextSize;
-    }
-
-    private void setSkipListener(SkipButtonListener skipButtonListener) {
-        this.skipButtonListener = skipButtonListener;
-    }
-
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (dismissOnBackPress && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if (event.getAction() == KeyEvent.ACTION_UP) {
-                dismiss();
-            }
-            return true;
-        }
-        return super.dispatchKeyEvent(event);
-    }
-
-    public void logger(String s) {
-        Log.d("Spotlight", s);
-    }
-
-    private int getViewHeight() {
-        if (getWidth() > getHeight()) {
-            //Landscape
-            return getHeight();
-        } else {
-            //Portrait
-            return (getHeight() - softwareBtnHeight);
-        }
-    }
-
-    private int getViewWidth() {
-        if (getWidth() > getHeight()) {
-            //Landscape
-            return (getWidth() - softwareBtnHeight);
-        } else {
-            //Portrait
-            return getWidth();
-        }
-    }
-
-    private static int getSoftButtonsBarHeight(Activity activity) {
-        try {
-            // getRealMetrics is only available with API 17 and +
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                DisplayMetrics metrics = new DisplayMetrics();
-                activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-
-                if (metrics.heightPixels > metrics.widthPixels) {
-                    //Portrait
-                    int usableHeight = metrics.heightPixels;
-                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-                    int realHeight = metrics.heightPixels;
-                    if (realHeight > usableHeight)
-                        return realHeight - usableHeight;
-                    else
-                        return 0;
-                } else {
-                    //Landscape
-                    int usableHeight = metrics.widthPixels;
-                    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-                    int realHeight = metrics.widthPixels;
-                    if (realHeight > usableHeight)
-                        return realHeight - usableHeight;
-                    else
-                        return 0;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    /**
-     * This will remove all usage ids from preferences.
-     */
-    public void resetAllUsageIds() {
-        try {
-            preferencesManager.resetAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * This will remove given usage id from preferences.
-     *
-     * @param id Spotlight usage id to be removed
-     */
-    public void resetUsageId(String id) {
-        try {
-            preferencesManager.reset(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -51,15 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         resetAndPlay = findViewById(R.id.resetAndPlay);
         changePosAndPlay = findViewById(R.id.changePosAndPlay);
         startSequence = findViewById(R.id.startSequence);
+        switchAnimation = findViewById(R.id.switchAnimation);
 
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Fab Clicked!", Toast.LENGTH_LONG).show();
-            }
-        });
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> Toast.makeText(MainActivity.this, "Fab Clicked!", Toast.LENGTH_LONG).show());
 
         switchAnimation.setOnClickListener(this);
         reset.setOnClickListener(this);
@@ -147,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .headingTvText("Love")
                 .subHeadingTvColor(Color.parseColor("#ffffff"))
                 .subHeadingTvSize(16)
+                .showSkipButton(true)
                 .setSkipButtonTextSize(12)
                 .subHeadingTvText("Like the picture?\nLet others know.")
                 .maskColor(Color.parseColor("#dc000000"))
