@@ -6,7 +6,7 @@ Spotlight is an Android library used to onboard users by showcasing specific fea
 [![API](https://img.shields.io/badge/API-21%2B-green.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![](https://jitpack.io/v/polekar-ankit/Spotlight.svg)](https://jitpack.io/#polekar-ankit/Spotlight)
 # Screen
-<img src="https://raw.githubusercontent.com/wooplr/Spotlight/master/art/intro.gif?token=AA5ZAHdvAspW6Zj8YyyKamkV7jWXFtMHks5XaQovwA%3D%3D"/>
+<img src="https://github.com/polekar-ankit/Spotlight/blob/master/art/intro.gif"/>
 
 # Usage
 ```java
