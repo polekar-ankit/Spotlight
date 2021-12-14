@@ -33,9 +33,10 @@ public class SpotlightConfig {
     private boolean showTargetArc;
     private Typeface typeface;
     private boolean showSkipButton;
-    private int skipButtonTopMargin = 50;
-    private int skipButtonBottomMargin = 50;
+    private int skipButtonTopMargin = 0;
+    private int skipButtonBottomMargin = 0;
     private int skipButtonTextSize;
+    private int skipButtonGravity = -1;
 
     public SpotlightConfig() {
         this.maskColor = 0x70000000;
@@ -60,6 +61,17 @@ public class SpotlightConfig {
         this.showTargetArc = true;
         this.skipButtonTextSize = 24;
         this.showSkipButton = true;
+        this.skipButtonGravity = -1;
+        this.skipButtonTopMargin = 0;
+        this.skipButtonBottomMargin = 0;
+    }
+
+    public int getSkipButtonGravity() {
+        return skipButtonGravity;
+    }
+
+    public void setSkipButtonGravity(int skipButtonGravity) {
+        this.skipButtonGravity = skipButtonGravity;
     }
 
     public int getSkipButtonTopMargin() {

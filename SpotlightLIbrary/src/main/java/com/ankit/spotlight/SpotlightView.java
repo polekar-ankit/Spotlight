@@ -184,12 +184,13 @@ public class SpotlightView extends FrameLayout {
     private Typeface mTypeface = null;
     private int softwareBtnHeight;
     private boolean dismissCalled = false;
-
+    private int skipButtonGravity = -1;
 
     public SpotlightView(Context context) {
         super(context);
         init(context);
     }
+
 
     public SpotlightView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -200,7 +201,6 @@ public class SpotlightView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         init(context);
     }
-
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public SpotlightView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -239,6 +239,10 @@ public class SpotlightView extends FrameLayout {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void setSkipButtonGravity(int skipButtonGravity) {
+        this.skipButtonGravity = skipButtonGravity;
     }
 
     public void setShowSkipButton(boolean showSkipButton) {
@@ -782,11 +786,13 @@ public class SpotlightView extends FrameLayout {
                 headingParams.topMargin = extramargin;
                 headingParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
 
-                skipButtonParams.rightMargin = headingParams.rightMargin;
-                skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
-                skipButtonParams.bottomMargin = skipButtonBottomMargin;
-                skipButtonParams.gravity = Gravity.TOP | Gravity.RIGHT;
+                if (skipButtonGravity == -1) {
+                    skipButtonParams.rightMargin = headingParams.rightMargin;
+                    skipButtonParams.leftMargin = gutter;
+                    skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                    skipButtonParams.bottomMargin = skipButtonBottomMargin;
+                    skipButtonParams.gravity = Gravity.TOP | Gravity.RIGHT;
+                }
 
 
                 subHeadingParams.rightMargin = screenWidth - (targetView.getViewRight() - targetView.getViewWidth() / 2) + extramargin;
@@ -820,11 +826,13 @@ public class SpotlightView extends FrameLayout {
                 headingTv.setGravity(Gravity.LEFT);
 
 
-                skipButtonParams.rightMargin = headingParams.rightMargin;
-                skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
-                skipButtonParams.bottomMargin = skipButtonBottomMargin;
-                skipButtonParams.gravity = Gravity.TOP | Gravity.LEFT;
+                if (skipButtonGravity == -1) {
+                    skipButtonParams.rightMargin = headingParams.rightMargin;
+                    skipButtonParams.leftMargin = gutter;
+                    skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                    skipButtonParams.bottomMargin = skipButtonBottomMargin;
+                    skipButtonParams.gravity = Gravity.TOP | Gravity.LEFT;
+                }
 
 
                 if (screenHeight > screenWidth) {
@@ -861,11 +869,13 @@ public class SpotlightView extends FrameLayout {
                 headingParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
                 headingTv.setGravity(Gravity.LEFT);
 
-                skipButtonParams.rightMargin = headingParams.rightMargin;
-                skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin+skipButtonTopMargin;
-                skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
-                skipButtonParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+                if (skipButtonGravity == -1) {
+                    skipButtonParams.rightMargin = headingParams.rightMargin;
+                    skipButtonParams.leftMargin = gutter;
+                    skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                    skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
+                    skipButtonParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+                }
 
                 subHeadingParams.leftMargin = gutter;
                 subHeadingParams.rightMargin = screenWidth - targetView.getViewRight() + targetView.getViewWidth() / 2 + extramargin;
@@ -895,12 +905,15 @@ public class SpotlightView extends FrameLayout {
                 headingParams.topMargin = extramargin;
                 headingParams.gravity = Gravity.BOTTOM | Gravity.RIGHT;
 
-                skipButtonParams.rightMargin = headingParams.rightMargin;
-                skipButtonParams.leftMargin = gutter;
-                skipButtonParams.topMargin = extramargin+skipButtonTopMargin;
-                skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
-                skipButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                if (skipButtonGravity == -1) {
+                    skipButtonParams.rightMargin = headingParams.rightMargin;
+                    skipButtonParams.leftMargin = gutter;
+                    skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                    skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
+                    skipButtonParams.gravity = Gravity.BOTTOM | Gravity.LEFT;
+                }
                 headingTv.setGravity(Gravity.LEFT);
+
 
                 if (screenHeight > screenWidth)
                     subHeadingParams.rightMargin = gutter;//portrait
@@ -915,8 +928,16 @@ public class SpotlightView extends FrameLayout {
 
         addView(headingTv, headingParams);
         addView(subHeadingTv, subHeadingParams);
-        if (showSkipButton)
+        if (showSkipButton) {
+            if (skipButtonGravity != -1) {
+                skipButtonParams.rightMargin = headingParams.rightMargin;
+                skipButtonParams.leftMargin = gutter;
+                skipButtonParams.topMargin = extramargin + skipButtonTopMargin;
+                skipButtonParams.bottomMargin = extramargin + skipButtonBottomMargin;
+                skipButtonParams.gravity = skipButtonGravity;
+            }
             addView(skipButton, skipButtonParams);
+        }
 
         return animPoints;
     }
@@ -1111,6 +1132,7 @@ public class SpotlightView extends FrameLayout {
             this.showSkipButton = configuration.isShowSkipButton();
             this.skipButtonTopMargin = configuration.getSkipButtonTopMargin();
             this.skipButtonBottomMargin = configuration.getSkipButtonBottomMargin();
+            this.setSkipButtonGravity(configuration.getSkipButtonGravity());
         }
     }
 
@@ -1236,8 +1258,13 @@ public class SpotlightView extends FrameLayout {
             return this;
         }
 
+        public Builder setSkipButtonGravity(int skipButtonGravity) {
+            spotlightView.setSkipButtonGravity(skipButtonGravity);
+            return this;
+        }
+
         public Builder showSkipButton(boolean showSkipButton) {
-            spotlightView.showSkipButton = showSkipButton;
+            spotlightView.setShowSkipButton(showSkipButton);
             return this;
         }
 

@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -113,19 +114,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.startSequence:
                 mPreferencesManager.resetAll();
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        SpotlightSequence.getInstance(MainActivity.this,null)
-                                .addSpotlight(switchAnimation, "Switch Animation", "Click to swtich the animation", INTRO_SWITCH)
-                                .addSpotlight(reset, "Reset ", "Click here to reset preferences", INTRO_RESET)
-                                .addSpotlight(resetAndPlay, "Play Again", "Click here to play again", INTRO_REPEAT)
-                                .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
-                                .addSpotlight(startSequence, "Start sequence", "Well.. you just clicked here", INTRO_SEQUENCE)
-                                .addSpotlight(fab,"Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
-                                .startSequence();
-                    }
-                },400);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> SpotlightSequence.getInstance(MainActivity.this,null)
+                        .addSpotlight(switchAnimation, "Switch Animation", "Click to swtich the animation", INTRO_SWITCH)
+                        .addSpotlight(reset, "Reset ", "Click here to reset preferences", INTRO_RESET)
+                        .addSpotlight(resetAndPlay, "Play Again", "Click here to play again", INTRO_REPEAT)
+                        .addSpotlight(changePosAndPlay, "Change Position", "Click here to change position and replay", INTRO_CHANGE_POSITION)
+                        .addSpotlight(startSequence, "Start sequence", "Well.. you just clicked here", INTRO_SEQUENCE)
+                        .addSpotlight(fab,"Love", "Like the picture?\n" + "Let others know.", INTRO_CARD)
+                        .startSequence(),400);
                 break;
         }
     }
@@ -148,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(view)
                 .lineAnimDuration(400)
+                .setSkipButtonGravity(Gravity.TOP|Gravity.END)
+                .setSkipButtonTopMargine(50)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
